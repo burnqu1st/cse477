@@ -1,0 +1,371 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     13358,        362]
+NotebookOptionsPosition[     12568,        334]
+NotebookOutlinePosition[     12991,        350]
+CellTagsIndexPosition[     12948,        347]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["B - Splines", "Subtitle",
+ CellChangeTimes->{{3.4634094176664114`*^9, 3.463409420808142*^9}}],
+
+Cell[BoxData["\[IndentingNewLine]"], "Input",
+ CellChangeTimes->{3.528338856669257*^9}],
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"SetDirectory", "[", 
+      RowBox[{"ToFileName", "[", 
+       RowBox[{"Extract", "[", 
+        RowBox[{
+         RowBox[{"\"\<FileName\>\"", "/.", 
+          RowBox[{"NotebookInformation", "[", 
+           RowBox[{"EvaluationNotebook", "[", "]"}], "]"}]}], ",", 
+         RowBox[{"{", "1", "}"}], ",", "FrontEnd`FileName"}], "]"}], "]"}], 
+      "]"}], ";"}], ")"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"d", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0.5"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "1"}], ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "2"}], ",", "1.5"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "1"}], ",", "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"2", ",", "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"2.2", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"2.9", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"3", ",", "3"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"6", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"7", ",", "1"}], "}"}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"w", "=", 
+     RowBox[{"{", 
+      RowBox[{
+      "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1", ",", 
+       "1", ",", "1", ",", "1"}], "}"}]}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.463410732228713*^9, 3.463410920407359*^9}, {
+   3.463411029117259*^9, 3.46341105871385*^9}, {3.4634111174382367`*^9, 
+   3.463411201961975*^9}, {3.4634116231763506`*^9, 3.463411625238956*^9}, 
+   3.463413252951064*^9, {3.4634134464611797`*^9, 3.4634134904944024`*^9}, {
+   3.463413521714551*^9, 3.463413524011529*^9}, {3.46341376630275*^9, 
+   3.46341378491284*^9}, {3.5283378523862934`*^9, 3.5283378762699356`*^9}, {
+   3.528337972210104*^9, 3.5283380631582637`*^9}, {3.528338862144867*^9, 
+   3.528338864859272*^9}},
+ FontFamily->"Courier New",
+ FontSize->18],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"knot", "=", 
+    RowBox[{"{", 
+     RowBox[{
+     "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "2", ",", "3", ",", 
+      "4", ",", "5", ",", "6", ",", "7", ",", "7", ",", "7", ",", "7"}], 
+     "}"}]}], ";"}], " ", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "Influence", " ", "of", " ", "one", " ", "weight", " ", "for", " ", 
+     "rational", " ", "B"}], "-", 
+    RowBox[{"spline", " ", 
+     RowBox[{"curve", ":"}]}]}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"nurbsw", "=", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{"{", 
+      RowBox[{"Thick", ",", 
+       RowBox[{"BSplineCurve", "[", 
+        RowBox[{"d", ",", 
+         RowBox[{"SplineKnots", "\[Rule]", "knot"}], ",", 
+         RowBox[{"SplineWeights", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{
+           "1", ",", "1", ",", "1", ",", "1", ",", "w", ",", "1", ",", "1", 
+            ",", "1", ",", "1", ",", "1"}], "}"}]}]}], "]"}], ",", "Green", 
+       ",", 
+       RowBox[{"Line", "[", "d", "]"}], ",", "Red", ",", 
+       RowBox[{"Point", "[", "d", "]"}]}], "}"}], "]"}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"w", ",", "0", ",", "5"}], "}"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{"\"\<nurbs-weight.avi\>\"", ",", "nurbsw"}], "]"}], ";"}], 
+   "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.463410732228713*^9, 3.463410920407359*^9}, {
+   3.463411029117259*^9, 3.46341105871385*^9}, {3.4634111174382367`*^9, 
+   3.463411201961975*^9}, {3.4634116231763506`*^9, 3.463411625238956*^9}, 
+   3.463413252951064*^9, {3.4634134464611797`*^9, 3.463413533902597*^9}, {
+   3.5283379531624703`*^9, 3.5283379644724903`*^9}, {3.5283380910823126`*^9, 
+   3.528338219454938*^9}, {3.5283382745542345`*^9, 3.5283382761766376`*^9}, 
+   3.5283383409791517`*^9, {3.5283384473401384`*^9, 3.5283384751861873`*^9}, {
+   3.5283385191314645`*^9, 3.5283385205510674`*^9}, {3.5283386380348735`*^9, 
+   3.528338647036089*^9}, {3.528338709685799*^9, 3.5283387199818172`*^9}, {
+   3.52833876144669*^9, 3.528338814252783*^9}, {3.5283390942116756`*^9, 
+   3.5283391112001057`*^9}, {3.528339464431526*^9, 3.5283395639441013`*^9}, {
+   3.5283396506958537`*^9, 3.5283396546738605`*^9}, 3.528368175929547*^9, {
+   3.5399572397871103`*^9, 3.5399572451254153`*^9}, {3.539957438691487*^9, 
+   3.5399574461539135`*^9}, {3.5401298805447273`*^9, 3.540129902025965*^9}},
+ FontFamily->"Courier New",
+ FontSize->18],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`w$$ = 4.68, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`w$$], 0, 5}}, Typeset`size$$ = {360., {63., 67.}}, 
+    Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    True, $CellContext`w$544188$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`w$$ = 0}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`w$$, $CellContext`w$544188$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, 
+      "Body" :> ($CellContext`nurbsw = Graphics[{Thick, 
+          
+          BSplineCurve[$CellContext`d, SplineKnots -> $CellContext`knot, 
+           SplineWeights -> {1, 1, 1, 1, $CellContext`w$$, 1, 1, 1, 1, 1}], 
+          Green, 
+          Line[$CellContext`d], Red, 
+          Point[$CellContext`d]}]), 
+      "Specifications" :> {{$CellContext`w$$, 0, 5}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{411., {109., 114.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.5283397264807863`*^9, 3.5283681835735598`*^9, 
+  3.5399572267573647`*^9, 3.540129838284253*^9, 3.6055745331490374`*^9, 
+  3.6067406510474844`*^9, 3.6067921257578225`*^9, 3.6074624763764114`*^9}]
+}, Open  ]],
+
+Cell["\<\
+
+Examples from CAGD book (Fig .8 .3)
+\
+\>", "Text",
+ CellChangeTimes->{{3.540129936533226*^9, 3.540130021334975*^9}},
+ FontFamily->"Arial",
+ FontSize->18],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"knot", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "2", ",", "3", ",", "4",
+      ",", "5", ",", "6", ",", "7", ",", "7", ",", "7", ",", "7"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Graphics", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"Thick", ",", 
+       RowBox[{"BSplineCurve", "[", 
+        RowBox[{"d", ",", 
+         RowBox[{"SplineKnots", "\[Rule]", "knot"}]}], "]"}]}], "}"}], ",", 
+     "Green", ",", 
+     RowBox[{"Line", "[", "d", "]"}], ",", "Red", ",", 
+     RowBox[{"Point", "[", "d", "]"}]}], "}"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.463411247669488*^9, 3.4634112771879463`*^9}, {
+   3.463411308205375*^9, 3.4634113323005133`*^9}, 3.463413257123206*^9, {
+   3.463413417366126*^9, 3.4634134333980947`*^9}},
+ FontFamily->"Courier New",
+ FontSize->18],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"knot", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "1", ",", "2", ",", "3", ",", "4", ",", "5",
+      ",", "6", ",", "7", ",", "8", ",", "8", ",", "8"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Graphics", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"Thick", ",", 
+       RowBox[{"BSplineCurve", "[", 
+        RowBox[{"d", ",", 
+         RowBox[{"SplineKnots", "\[Rule]", "knot"}], ",", 
+         RowBox[{"SplineDegree", "\[Rule]", "2"}]}], "]"}]}], "}"}], ",", 
+     "Green", ",", 
+     RowBox[{"Line", "[", "d", "]"}], ",", "Red", ",", 
+     RowBox[{"Point", "[", "d", "]"}]}], "}"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.463411370365206*^9, 3.4634113782875366`*^9}, {
+   3.4634114090861855`*^9, 3.4634114202274523`*^9}, 3.463413261279722*^9, {
+   3.463413378114368*^9, 3.463413393958828*^9}},
+ FontFamily->"Courier New",
+ FontSize->18],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"knot", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "2",
+      ",", "3", ",", "4", ",", "5", ",", "5", ",", "5", ",", "5", ",", "5", 
+     ",", "5"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Graphics", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"Thick", ",", 
+       RowBox[{"BSplineCurve", "[", 
+        RowBox[{"d", ",", 
+         RowBox[{"SplineKnots", "\[Rule]", "knot"}], ",", 
+         RowBox[{"SplineDegree", "\[Rule]", "5"}]}], "]"}]}], "}"}], ",", 
+     "Green", ",", 
+     RowBox[{"Line", "[", "d", "]"}], ",", "Red", ",", 
+     RowBox[{"Point", "[", "d", "]"}]}], "}"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.4634114680114546`*^9, 3.4634115380467386`*^9}, {
+   3.4634116609751606`*^9, 3.463411662100218*^9}, {3.4634116951956625`*^9, 
+   3.4634117132747135`*^9}, 3.463413265998774*^9, {3.4634133584259863`*^9, 
+   3.4634133727235017`*^9}},
+ FontFamily->"Courier New",
+ FontSize->18],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"knot", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "3", ",", "3",
+      ",", "3", ",", "3", ",", "5", ",", "5", ",", "5", ",", "5", ",", "5", 
+     ",", "5"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Graphics", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"Thick", ",", 
+       RowBox[{"BSplineCurve", "[", 
+        RowBox[{"d", ",", 
+         RowBox[{"SplineKnots", "\[Rule]", "knot"}], ",", 
+         RowBox[{"SplineDegree", "\[Rule]", "5"}]}], "]"}]}], "}"}], ",", 
+     "Green", ",", 
+     RowBox[{"Line", "[", "d", "]"}], ",", "Red", ",", 
+     RowBox[{"Point", "[", "d", "]"}]}], "}"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.463411758980178*^9, 3.4634117724027405`*^9}, 
+   3.4634132739836597`*^9, {3.463413335565587*^9, 3.463413352519471*^9}},
+ FontFamily->"Courier New",
+ FontSize->18],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"knot", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0",
+      ",", "0", ",", "0", ",", "5", ",", "5", ",", "5", ",", "5", ",", "5", 
+     ",", "5", ",", "5", ",", "5", ",", "5", ",", "5"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Graphics", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"Thick", ",", 
+       RowBox[{"BSplineCurve", "[", 
+        RowBox[{"d", ",", 
+         RowBox[{"SplineKnots", "\[Rule]", "knot"}], ",", 
+         RowBox[{"SplineDegree", "\[Rule]", "9"}]}], "]"}]}], "}"}], ",", 
+     "Green", ",", 
+     RowBox[{"Line", "[", "d", "]"}], ",", "Red", ",", 
+     RowBox[{"Point", "[", "d", "]"}]}], "}"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.463413138474988*^9, 3.463413198885104*^9}, {
+   3.4634132936099157`*^9, 3.463413324471266*^9}, 3.5251164089435506`*^9},
+ FontFamily->"Courier New",
+ FontSize->18]
+}, Open  ]]
+},
+WindowSize->{1193, 856},
+WindowMargins->{{23, Automatic}, {16, Automatic}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"9.0 for Microsoft Windows (64-bit) (January 25, 2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 99, 1, 56, "Subtitle"],
+Cell[669, 25, 87, 1, 52, "Input"],
+Cell[759, 28, 2194, 57, 199, "Input"],
+Cell[CellGroupData[{
+Cell[2978, 89, 2602, 56, 253, "Input"],
+Cell[5583, 147, 1936, 40, 272, "Output"]
+}, Open  ]],
+Cell[7534, 190, 164, 7, 83, "Text"],
+Cell[7701, 199, 911, 24, 64, "Input"],
+Cell[8615, 225, 958, 25, 91, "Input"],
+Cell[9576, 252, 1049, 26, 91, "Input"],
+Cell[10628, 280, 939, 24, 91, "Input"],
+Cell[11570, 306, 982, 25, 91, "Input"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

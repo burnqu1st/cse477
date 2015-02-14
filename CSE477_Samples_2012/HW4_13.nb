@@ -1,0 +1,84 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      2532,         75]
+NotebookOptionsPosition[      2218,         60]
+NotebookOutlinePosition[      2562,         75]
+CellTagsIndexPosition[      2519,         72]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+CSE 477 / G. Farin
+HW 4, due 4/25 
+
+B-spline curves\
+\>", "Text",
+ CellChangeTimes->{{3.5359856622878494`*^9, 3.5359857281667647`*^9}, {
+   3.535985765701232*^9, 3.5359857888048725`*^9}, {3.5363710720880747`*^9, 
+   3.536371077015356*^9}, 3.5378963864501743`*^9, {3.537896472718326*^9, 
+   3.5378964735139275`*^9}, {3.5378965379264407`*^9, 3.537896547707658*^9}, {
+   3.5378973956351476`*^9, 3.537897401547558*^9}, {3.5406595378470073`*^9, 
+   3.540659543275817*^9}, {3.540659651352806*^9, 3.54065967609445*^9}, 
+   3.5431598283615923`*^9, {3.543159863664454*^9, 3.543159877423678*^9}, {
+   3.5431841901047306`*^9, 3.5431841939891376`*^9}, {3.575376140097734*^9, 
+   3.5753761492083673`*^9}, {3.5753775746311455`*^9, 3.5753775824157453`*^9}},
+ FontFamily->"Arial",
+ FontSize->18,
+ FontWeight->"Bold"],
+
+Cell["\<\
+Design a 2D cubic B-spline curve which contains two straight segments. The \
+control points should not all be on a straight line.\
+\>", "Text",
+ CellChangeTimes->{{3.5431598871892953`*^9, 3.5431599010109196`*^9}, {
+  3.543164303644255*^9, 3.5431643055474586`*^9}, {3.5753761742470093`*^9, 
+  3.575376288093541*^9}, {3.5753773387530975`*^9, 3.5753774391728725`*^9}},
+ FontSize->18],
+
+Cell["\<\
+
+For graduate students: Repeat with a nonplanar 3D curve and three straight \
+segments.\
+\>", "Text",
+ CellChangeTimes->{{3.5431598871892953`*^9, 3.5431599010109196`*^9}, {
+  3.543164303644255*^9, 3.5431643055474586`*^9}, {3.5753761742470093`*^9, 
+  3.575376288093541*^9}, {3.5753773387530975`*^9, 3.5753774719337125`*^9}, {
+  3.5753775466284275`*^9, 3.5753775511525435`*^9}},
+ FontSize->18,
+ FontColor->RGBColor[0., 0.7490196078431373, 0.]]
+},
+WindowSize->{707, 761},
+WindowMargins->{{48, Automatic}, {Automatic, 60}},
+FrontEndVersion->"9.0 for Microsoft Windows (32-bit) (January 25, 2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 810, 17, 107, "Text"],
+Cell[1370, 39, 390, 7, 59, "Text"],
+Cell[1763, 48, 451, 10, 83, "Text"]
+}
+]
+*)
+
+(* End of internal cache information *)

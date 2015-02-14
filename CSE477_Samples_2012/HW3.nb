@@ -1,0 +1,158 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      5442,        149]
+NotebookOptionsPosition[      5084,        133]
+NotebookOutlinePosition[      5428,        148]
+CellTagsIndexPosition[      5385,        145]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+CSE 477 G. Farin
+HW 3, due 4/9 , 11:59 pm
+
+B-Spline Curves\
+\>", "Text",
+ CellChangeTimes->{{3.5359856622878494`*^9, 3.5359857281667647`*^9}, {
+   3.535985765701232*^9, 3.5359857888048725`*^9}, {3.5363710720880747`*^9, 
+   3.536371077015356*^9}, 3.5378963864501743`*^9, {3.537896472718326*^9, 
+   3.5378964735139275`*^9}, {3.5378965379264407`*^9, 3.537896547707658*^9}, {
+   3.5378973956351476`*^9, 3.537897401547558*^9}, {3.5406595378470073`*^9, 
+   3.540659543275817*^9}, {3.540659651352806*^9, 3.54065967609445*^9}, {
+   3.5738481194172945`*^9, 3.5738481202284946`*^9}},
+ FontFamily->"Arial",
+ FontSize->18,
+ FontWeight->"Bold"],
+
+Cell[TextData[{
+ "Let a cubic B-spline curve have the knot sequence\n\n\
+0,0,0,0,1,2,3,3,3,4,5,6,7,7,7,7 (",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " end knot multiplicities)\n\nDesign 2D control points such that you have a \
+completely defined B-spline curve.\nUsing ",
+ StyleBox["Manipulate",
+  FontSlant->"Italic"],
+ ", \n1.\tlet u trace out the domain. Plot the moving point ",
+ StyleBox["x",
+  FontWeight->"Bold"],
+ "(u) on the curve. \n2.\tThen repeat for the tangent vector.\n\n"
+}], "Text",
+ CellChangeTimes->{{3.53789662291899*^9, 3.5378969141091022`*^9}, {
+  3.537896979754017*^9, 3.537896980861619*^9}, {3.537897076832988*^9, 
+  3.5378971041018353`*^9}, {3.5379683789382257`*^9, 3.537968382323432*^9}, {
+  3.538157367590446*^9, 3.538157596271248*^9}, {3.540659692786479*^9, 
+  3.5406597281049414`*^9}, {3.5406597829702377`*^9, 3.540659802454672*^9}, {
+  3.540659833280326*^9, 3.540660107747208*^9}, {3.5406602278830194`*^9, 
+  3.5406602309718246`*^9}, {3.540660342714821*^9, 3.540660421416959*^9}, {
+  3.540660897264595*^9, 3.540660916078228*^9}, {3.5406610017379785`*^9, 
+  3.5406610096783924`*^9}, {3.5407654807071986`*^9, 3.5407654822984014`*^9}, {
+  3.540765528053282*^9, 3.5407655296912847`*^9}, {3.573848050168895*^9, 
+  3.5738480800584946`*^9}},
+ FontFamily->"Arial",
+ FontSize->18],
+
+Cell[TextData[{
+ Cell[BoxData["\[IndentingNewLine]"], "Input",
+  CellChangeTimes->{{3.535991257472478*^9, 3.535991312805775*^9}, 
+    3.535991409042344*^9},
+  FontFamily->"Courier New",
+  FontSize->18],
+ "\n",
+ StyleBox["For graduate students: Repeat the assignment in 3D.",
+  FontColor->RGBColor[0., 0.5019607843137255, 0.]]
+}], "Text",
+ CellChangeTimes->{{3.5359913625854626`*^9, 3.535991382101097*^9}, {
+   3.5359914715828543`*^9, 3.535991478010065*^9}, {3.5359915498793917`*^9, 
+   3.5359915885050592`*^9}, {3.5363451866955147`*^9, 
+   3.5363452006783147`*^9}, {3.536352907174101*^9, 3.53635291694766*^9}, {
+   3.5363535994656973`*^9, 3.5363536294474125`*^9}, {3.5363709775956697`*^9, 
+   3.536370984014037*^9}, {3.5363710228782597`*^9, 3.5363710228782597`*^9}, {
+   3.537896528550824*^9, 3.537896528550824*^9}, {3.537897121355466*^9, 
+   3.5378972440808816`*^9}, {3.5379684550039597`*^9, 
+   3.5379684747691936`*^9}, {3.5381576376893206`*^9, 3.538157644147732*^9}, 
+   3.5406597036752987`*^9, {3.5406601131448174`*^9, 3.540660132442052*^9}, {
+   3.540660445831002*^9, 3.5406604507450104`*^9}, {3.573848709837887*^9, 
+   3.5738487125834866`*^9}},
+ FontFamily->"Arial",
+ FontSize->18],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"curve", " ", 
+    RowBox[{"evaluation", ":"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"curve", "[", "t_", "]"}], ":=", 
+     RowBox[{"Sum", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"BSplineBasis", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"n", ",", "knot"}], "}"}], ",", "i", ",", "t"}], "]"}], 
+        "*", 
+        RowBox[{"dd", "[", 
+         RowBox[{"[", 
+          RowBox[{"i", "+", "1"}], "]"}], "]"}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "0", ",", 
+         RowBox[{"n", "+", "ll", "-", "1"}]}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"a", " ", "brutal", " ", "first", " ", "derivative", " ", 
+     RowBox[{"approximation", ":"}]}], "  ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"first", "[", "t_", "]"}], ":=", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"curve", "[", 
+         RowBox[{"t", "+", "0.0001"}], "]"}], "-", 
+        RowBox[{"curve", "[", "t", "]"}]}], ")"}], "/", "0.0001"}]}], 
+    ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.573912280356682*^9, 3.5739123369576797`*^9}, 
+   3.5739411157591457`*^9},
+ FontFamily->"Courier New",
+ FontSize->18]
+},
+WindowSize->{707, 761},
+WindowMargins->{{48, Automatic}, {55, Automatic}},
+FrontEndVersion->"9.0 for Microsoft Windows (32-bit) (January 25, 2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 641, 15, 107, "Text"],
+Cell[1201, 37, 1311, 26, 277, "Text"],
+Cell[2515, 65, 1187, 23, 87, "Text"],
+Cell[3705, 90, 1375, 41, 226, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

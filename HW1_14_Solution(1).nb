@@ -1,0 +1,746 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     29780,        737]
+NotebookOptionsPosition[     28464,        688]
+NotebookOutlinePosition[     28885,        704]
+CellTagsIndexPosition[     28842,        701]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+CSE 477/598 G. Farin
+Homework 1: Bezier Curves
+Due 2/11 by midnight
+\
+\>", "Title",
+ CellChangeTimes->{{3.5359856622878494`*^9, 3.5359857281667647`*^9}, {
+   3.535985765701232*^9, 3.5359857888048725`*^9}, {3.5363710720880747`*^9, 
+   3.536371077015356*^9}, 3.5378963864501743`*^9, {3.537896472718326*^9, 
+   3.5378964735139275`*^9}, {3.5378965379264407`*^9, 3.537896547707658*^9}, {
+   3.5378973956351476`*^9, 3.537897401547558*^9}, 3.5685528632328386`*^9, {
+   3.5685529006579585`*^9, 3.568552925743241*^9}, {3.6002931746506443`*^9, 
+   3.6002931830278587`*^9}, {3.600513049027987*^9, 3.600513086208397*^9}, {
+   3.6005133532350903`*^9, 3.6005134009779224`*^9}},
+ FontFamily->"Arial",
+ FontSize->18,
+ FontWeight->"Bold"],
+
+Cell[TextData[{
+ "The purpose of this homework is to get some experience with Bezier curves \
+and ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ ". Items 1-3 below should each live in a different cell.\n1) Below you will \
+find a Bezier polygon called \
+\[OpenCurlyDoubleQuote]bb\[CloseCurlyDoubleQuote]. Display the polygon, \
+generated curve, and the point for t=0.5.\[LineSeparator]The polygon and \
+curve should be displayed with different thickness.\n2) Using Manipulate, \
+display the point on the curve bb  and the tangent vector there for t in \
+[0,1].\n(The minmax box for the geometry should remain constant as the \
+manipulate parameter changes.)\n3) Degree elevate the curve cc defined below \
+to degree 5. Display cc and the degree elevated curve together.\n4) For \
+graduate students: In item 2, add the second derivative vector.\n"
+}], "Subtitle",
+ CellChangeTimes->{{3.6005134524794626`*^9, 3.600513475184577*^9}, {
+  3.6005137524503174`*^9, 3.6005137965449*^9}, {3.600513845360529*^9, 
+  3.6005138945410013`*^9}, {3.600513970610918*^9, 3.600514141282737*^9}, {
+  3.600514413294792*^9, 3.6005145461307*^9}, {3.6005146457145195`*^9, 
+  3.6005147029140778`*^9}, {3.6005147422693024`*^9, 3.6005147436143045`*^9}, {
+  3.6005149266903715`*^9, 3.6005149324428844`*^9}, {3.600515006002988*^9, 
+  3.6005150378030605`*^9}, {3.6005151370532*^9, 3.6005151628032637`*^9}, {
+  3.6005200648004675`*^9, 3.600520155022977*^9}}],
+
+Cell[TextData[{
+ StyleBox["Instructions on turning in your homework:",
+  FontWeight->"Bold"],
+ "\n-- Name your notebook accordingly\[LineSeparator]{cse477, \
+cse598}_hw1_lastname_firstname.nb\n-- Include this filename inside the .nb \
+file at the top\n-- Submit it via the course Blackboard site. Multiple \
+submissions are allowed, but only the last one will be graded.\n-- Be sure to \
+include comments/text describing your work. This will make it possible to \
+receive partial credit."
+}], "Subsubtitle",
+ CellChangeTimes->{{3.6005131182415533`*^9, 3.600513239440255*^9}, {
+  3.600513272050503*^9, 3.6005133450576515`*^9}, {3.6005134788183746`*^9, 
+  3.600513480188377*^9}, {3.6005136248626833`*^9, 3.600513738171523*^9}}],
+
+Cell["Bezier control polygons", "Text",
+ CellChangeTimes->{{3.53789662291899*^9, 3.5378969141091022`*^9}, {
+  3.537896979754017*^9, 3.537896980861619*^9}, {3.537897076832988*^9, 
+  3.5378971041018353`*^9}, {3.5379683789382257`*^9, 3.537968382323432*^9}, {
+  3.5685529352594237`*^9, 3.5685529629031553`*^9}, {3.5685530647947187`*^9, 
+  3.568553065964741*^9}, {3.6005151043031535`*^9, 3.6005151071631575`*^9}},
+ FontFamily->"Arial",
+ FontSize->18],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"bb", " ", "=", " ", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"i", "^", "1.5"}], ",", 
+       RowBox[{"Sqrt", "[", "i", "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", "5"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"cc", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "0"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", "3", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "0", ",", "3"}], "}"}]}], "}"}]}], ";"}]}], "Input",
+ CellChangeTimes->{
+  3.535985879877833*^9, {3.535990944707529*^9, 3.5359910220056643`*^9}, {
+   3.5359910657949414`*^9, 3.535991075186158*^9}, {3.5359912283784266`*^9, 
+   3.5359912439628544`*^9}, {3.5359913238505945`*^9, 
+   3.5359913242717953`*^9}, {3.535991424969972*^9, 3.535991443783605*^9}, {
+   3.5363534533343396`*^9, 3.536353454902429*^9}, {3.5363707619443355`*^9, 
+   3.5363707646954927`*^9}, 3.537896515556001*^9, {3.537896597210145*^9, 
+   3.537896611764971*^9}, 3.568552938270282*^9, {3.568552970624506*^9, 
+   3.5685529888924575`*^9}, {3.568553035590957*^9, 3.568553092266847*^9}, 
+   3.568553353138668*^9, {3.600293353270958*^9, 3.6002933553769617`*^9}, 
+   3.600347406095222*^9, {3.6003507216524763`*^9, 3.6003507342104983`*^9}, 
+   3.600372288371157*^9, {3.60046423712185*^9, 3.6004642490090714`*^9}, {
+   3.600464359987666*^9, 3.6004643889359713`*^9}, {3.600514284359111*^9, 
+   3.6005142877977*^9}, {3.6005143355104313`*^9, 3.6005144056686687`*^9}, {
+   3.600514551890724*^9, 3.6005145547507277`*^9}, {3.600514608795216*^9, 
+   3.600514626230709*^9}, {3.601867529167139*^9, 3.601867531030196*^9}, 
+   3.601867993038549*^9, 3.601869265960649*^9},
+ FontFamily->"Courier New",
+ FontSize->18],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+
+Sample Solution by Tao Yang\
+\>", "Subtitle",
+ CellChangeTimes->{{3.601870341629562*^9, 3.6018703583672256`*^9}, {
+   3.601870392679145*^9, 3.601870405181657*^9}, 3.601870588116596*^9}],
+
+Cell[CellGroupData[{
+
+Cell["Problem 1", "Section",
+ CellChangeTimes->{{3.601868233861614*^9, 3.601868238793314*^9}, 
+   3.6018683250257673`*^9, {3.6018703385746393`*^9, 3.601870339886498*^9}, 
+   3.6018703699037533`*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"f", "=", 
+   RowBox[{"BezierFunction", "[", "bb", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"gControl", "=", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{"{", 
+     RowBox[{"Red", ",", 
+      RowBox[{"Point", "[", "bb", "]"}], ",", 
+      RowBox[{"Thickness", "[", "0.003", "]"}], ",", "Green", ",", 
+      RowBox[{"Line", "[", "bb", "]"}]}], "}"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"gCurve", "=", 
+   RowBox[{"ParametricPlot", "[", 
+    RowBox[{
+     RowBox[{"f", "[", "t", "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"t", ",", "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"Thickness", "[", "0.007", "]"}], "}"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"gPoint", "=", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"PointSize", "[", "Large", "]"}], ",", "Red", ",", 
+      RowBox[{"Point", "[", 
+       RowBox[{"f", "[", "0.5", "]"}], "]"}]}], "}"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Show", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"gControl", ",", "gPoint", ",", "gCurve"}], "}"}], ",", 
+   RowBox[{"AspectRatio", "\[Rule]", 
+    RowBox[{"1", "/", "1"}]}], ",", " ", 
+   RowBox[{"Axes", "\[Rule]", "True"}], ",", " ", 
+   RowBox[{"PlotRange", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", "12"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0.5", ",", "2.5"}], "}"}]}], "}"}]}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.6018672856806383`*^9, 3.601867303640077*^9}, {
+  3.6018673505297813`*^9, 3.601867513380417*^9}, {3.60186757488797*^9, 
+  3.601867687258617*^9}, {3.601867772331045*^9, 3.601867792538487*^9}, {
+  3.601868118996304*^9, 3.601868211629862*^9}, {3.601868465340303*^9, 
+  3.6018684658208513`*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{{
+    {RGBColor[1, 0, 0], 
+     PointBox[NCache[{{1., 1}, {2.8284271247461903`, 2^Rational[1, 2]}, {
+        5.196152422706632, 3^Rational[1, 2]}, {8., 2}, {
+        11.180339887498949`, 5^Rational[1, 2]}}, {{1., 1}, {
+        2.8284271247461903`, 1.4142135623730951`}, {5.196152422706632, 
+        1.7320508075688772`}, {8., 2}, {11.180339887498949`, 
+        2.23606797749979}}]]}, 
+    {RGBColor[0, 1, 0], Thickness[0.003], 
+     LineBox[NCache[{{1., 1}, {2.8284271247461903`, 2^Rational[1, 2]}, {
+        5.196152422706632, 3^Rational[1, 2]}, {8., 2}, {
+        11.180339887498949`, 5^Rational[1, 2]}}, {{1., 1}, {
+        2.8284271247461903`, 1.4142135623730951`}, {5.196152422706632, 
+        1.7320508075688772`}, {8., 2}, {11.180339887498949`, 
+        2.23606797749979}}]]}}, 
+   {RGBColor[1, 0, 0], PointSize[Large], 
+    PointBox[{5.416935182670219, 1.7053266920253396`}]}, {{}, {}, 
+    {Hue[0.67, 0.6, 0.6], Thickness[0.007], LineBox[CompressedData["
+1:eJw1xwk4lAkcx/H3ReVoct+LZOaVoekksvz/RDpIKdG1xtF2LjpdhRmKfWrZ
+SJs8jiddZCdm0SgpaWOFpDVUD2om26rwziDXYO2zz/6e5/d8n49lSITfPiWC
+IHxm/2//Gw3/NzIXucvUaAhjlNfrKdHA430IDdaZba7DMRsVGjri3P1/Z9LA
+NC+N8FOlQV3c3HNpAw0tycL5hVo0/Jjeke6XSYPijrTV1ZKGZOPDTuutZXBz
+YP9FrjsNvmsfFJhulYOut1W4TzINgXLu8596hmH5slyrSm0ZpDaZG/n4jIKe
+iZejNFMG814w9tSLxsHO/mNCk7YcAppKmI2hCvBbJVLiXZGDfTFy4z9PQ0L4
+h4YzekMwJjtY5vGGwIRrtXnK2UOQ/KXsVpeLEna+f1q00XgYuJkdHbw0Zfxk
+IXLfmT4M1UpZlb3EHHTw0uTcZoxAnHA4rShoLjrsVTlF8EdAL1vHgV09D58G
+7ajIlY+A7fnh4GPOaijXjOhwPPwVfPuXL5LcUMcTWfdGfd58BWai2nH5yvmo
+nfhywmbrKDw6ZvpR/oiB/sHdz7Y8HYWg/pWNEntNXKFh1LuXMwZ+zPRY5wNa
+uGWupGskfww0AjfbLmFr492BxxYlquPgpjw0+HpaG2t6I4Kqo8fh6mFxw9I2
+HbS5ENkX1DsOFd8Wf385WxcrRJ7TSRsmIO+vjeX2J/SwzslXo7l8Atq8Tu2+
+4q6PsZ6/hfxhOAmc+HccNU0D1KV7CmuiJiFLRtWzBw3wyjrBtdvdk2By2e87
+/hNDNBFYKnJcFJBztvx8f5ERPrQ4OrG7UAGprvz6+HRjlGxKWW86dwoihYRI
+tN8E973fx3EIngLXvXcqTm83xZ8jQ47In0yBwFa5v2DlN7gn4n7xKrNpMDUU
+2O3SMkPh3Rjr5yemwTljbfsCJXO8Xr0i+23bNAj6A9bk95pjeanltSqbGYhu
+nOef2m2BUkX6M/rcDLD1eUlJYQsxn++UZ9o1A6GxFSo/dC7EEkXv2TAjAgXd
+Q1+cAizx+thZ7g5PAh0vHIy72GKJKqxBpiScQI/y5trxLYvwZp9yXGwOgX2M
+jlTDtkV4iL2zXfyMwE/EoecJm6ywUmf0/OcBAufP+LotbbXCxeBlMGVMood2
+12ZVHybe8TTNF7uRGN9ntMC/gYn8FUvOZB4gscKJ52rmy0LZZNVD1wwS7+W0
+1rU1szA0/LJLk4jEjzcE2eqtLEw8WVsSVUViaXUKz72NheyMKn2r+yQ6aNik
+CMUsFKbotsc8ILFSw+RQZg8L4x4lqFnXkJgh9EgLlLEwabJuQ2IdiWZzVnvT
+ehSWaXnbcVpIjH13mss2pDBK3VvcOWui7NdzYcYUOjXbxSa9ILFhWYvqazMK
+08wz73a2khh1SyF9QlFYRKq85L8iUTk8fyTbkcLVjJmB9k4SnbMCF7evobCx
+cPvqxNckWguHj2i5UKjx8FIM+w2JO1pe2aa4UciQij/HvyWx4KpF4smNFPb/
+fTzFupvEmhiJW5k3het4nPyXs5ZuTdbv30yhxdHO0rgeEpMHQ+Rh2yhkPVbU
+vnhHomNl3mSBP4Wp26JrY96TGBR9z6ArgMI/b/bet5KQWFxZstZ4F4UD2zwF
+zbNuk53h+++h8PbwLzlRUhL/ATQGLxA=
+      "]]}}},
+  AspectRatio->1,
+  Axes->True,
+  PlotRange->{{0, 12}, {0.5, 2.5}}]], "Output",
+ CellChangeTimes->{{3.6018675140936203`*^9, 3.601867534536593*^9}, {
+   3.60186762107757*^9, 3.6018676458957987`*^9}, 3.601867687995716*^9, 
+   3.601867794036972*^9, {3.601868123663003*^9, 3.601868218928977*^9}, 
+   3.601868466310535*^9, 3.6018687342614326`*^9, 3.601868843307556*^9, 
+   3.601868963266283*^9, 3.6018690295242233`*^9, 3.601869105331353*^9, {
+   3.601869160791808*^9, 3.601869185989448*^9}, 3.601869270252314*^9, {
+   3.6018696159841347`*^9, 3.6018696383081713`*^9}, 3.6018697664014063`*^9, 
+   3.601869980166201*^9, {3.6018700172685423`*^9, 3.6018700346108932`*^9}, 
+   3.60187010428087*^9, {3.601870138915604*^9, 3.601870181102768*^9}, 
+   3.6018702518850718`*^9, 3.601870307897194*^9, 3.601870544994832*^9, 
+   3.6019442895721283`*^9, 3.6055732506170692`*^9, 3.6056302885693007`*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Problem 2 & 4", "Section",
+ CellChangeTimes->{{3.601868337640541*^9, 3.601868365268701*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"first", "[", 
+    RowBox[{"f_", ",", "t_"}], "]"}], ":=", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{"{", 
+      RowBox[{"Red", ",", 
+       RowBox[{"Arrow", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"f", "[", "t", "]"}], ",", 
+          RowBox[{
+           RowBox[{"f", "[", "t", "]"}], "+", 
+           RowBox[{"Normalize", "[", 
+            RowBox[{
+             RowBox[{"f", "'"}], "[", "t", "]"}], "]"}]}]}], "}"}], "]"}]}], 
+      "}"}], "]"}], "\[IndentingNewLine]", "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"second", "[", 
+    RowBox[{"f_", ",", "t_"}], "]"}], ":=", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{"Graphics", "[", 
+     RowBox[{"{", 
+      RowBox[{"Black", ",", 
+       RowBox[{"Arrow", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"f", "[", "t", "]"}], ",", 
+          RowBox[{
+           RowBox[{"f", "[", "t", "]"}], "+", 
+           RowBox[{"Normalize", "[", 
+            RowBox[{
+             RowBox[{"f", "''"}], "[", "t", "]"}], "]"}]}]}], "}"}], "]"}]}], 
+      "}"}], "]"}], "\[IndentingNewLine]", "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Show", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"gControl", ",", "gPoint", ",", "gCurve", ",", 
+       RowBox[{"first", "[", 
+        RowBox[{"f", ",", "t"}], "]"}], ",", 
+       RowBox[{"second", "[", 
+        RowBox[{"f", ",", "t"}], "]"}]}], "}"}], ",", 
+     RowBox[{"AspectRatio", "\[Rule]", 
+      RowBox[{"1", "/", "1"}]}], ",", " ", 
+     RowBox[{"Axes", "\[Rule]", "True"}], ",", " ", 
+     RowBox[{"PlotRange", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"0", ",", "12"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"0.5", ",", "2.5"}], "}"}]}], "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"t", ",", "0", ",", "1"}], "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{
+  3.6018683422095127`*^9, {3.601868394460538*^9, 3.6018686257222233`*^9}, {
+   3.601868656227096*^9, 3.6018686582276583`*^9}, {3.601868727242481*^9, 
+   3.601868731569083*^9}, {3.601868782848035*^9, 3.601868960321095*^9}, {
+   3.601869023402059*^9, 3.6018690274214363`*^9}, {3.6018691020367117`*^9, 
+   3.60186918315536*^9}, {3.601869947367098*^9, 3.601869960998012*^9}, {
+   3.6018700613860693`*^9, 3.6018700695307207`*^9}, {3.6018701264062243`*^9, 
+   3.6018701366454983`*^9}, {3.601944343262203*^9, 3.601944343802204*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`t$$ = 0.02, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`t$$], 0, 1}}, Typeset`size$$ = {360., {178., 182.}}, 
+    Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    True, $CellContext`t$33201$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`t$$ = 0}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`t$$, $CellContext`t$33201$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Show[{$CellContext`gControl, $CellContext`gPoint, $CellContext`gCurve, 
+         $CellContext`first[$CellContext`f, $CellContext`t$$], 
+         $CellContext`second[$CellContext`f, $CellContext`t$$]}, AspectRatio -> 
+        1/1, Axes -> True, PlotRange -> {{0, 12}, {0.5, 2.5}}], 
+      "Specifications" :> {{$CellContext`t$$, 0, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{411., {224., 229.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.601868666034872*^9, 3.6018687343009*^9, {3.601868792200603*^9, 
+   3.601868810313282*^9}, 3.601868843360504*^9, 3.601868881435955*^9, 
+   3.60186891464419*^9, 3.601868963332448*^9, 3.601869029578336*^9, 
+   3.6018691053978853`*^9, {3.601869160859791*^9, 3.6018691860413933`*^9}, 
+   3.601869270290008*^9, {3.6018696160859413`*^9, 3.601869638386756*^9}, 
+   3.6018697664975233`*^9, 3.601869980206237*^9, {3.601870017306707*^9, 
+   3.601870034677313*^9}, 3.601870104331505*^9, {3.601870138969941*^9, 
+   3.6018701811708317`*^9}, 3.601870251935109*^9, 3.601870307949932*^9, 
+   3.601870545088788*^9, 3.6019442905621295`*^9, 3.6019443478922095`*^9, 
+   3.605573250647069*^9, 3.6056302885893*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Problem3", "Section",
+ CellChangeTimes->{{3.6018691986433487`*^9, 3.601869220060245*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"DegreeElevaion", "[", "pts_", "]"}], ":=", "\[IndentingNewLine]", 
+    RowBox[{"(", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"n", "=", 
+       RowBox[{
+        RowBox[{"Length", "[", "pts", "]"}], "-", "1"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"newPts", "=", 
+       RowBox[{"Join", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"pts", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "}"}], ",", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"i", "/", 
+              RowBox[{"(", 
+               RowBox[{"n", "+", "1"}], ")"}]}], "*", 
+             RowBox[{"pts", "[", 
+              RowBox[{"[", "i", "]"}], "]"}]}], "+", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{"1", "-", 
+               RowBox[{"i", "/", 
+                RowBox[{"(", 
+                 RowBox[{"n", "+", "1"}], ")"}]}]}], ")"}], "*", 
+             RowBox[{"pts", "[", 
+              RowBox[{"[", 
+               RowBox[{"i", "+", "1"}], "]"}], "]"}]}]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"i", ",", "1", ",", "n"}], "}"}]}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"pts", "[", 
+           RowBox[{"[", 
+            RowBox[{"Length", "[", "pts", "]"}], "]"}], "]"}], "}"}]}], 
+        "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Print", "[", 
+       RowBox[{"\"\<New control points are: \>\"", ",", "newPts"}], "]"}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{"Return", "[", "newPts", "]"}], ";"}], "\[IndentingNewLine]", 
+     ")"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Original control points are: \>\"", ",", "cc"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"cc1", "=", 
+   RowBox[{"DegreeElevaion", "[", "cc", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"cc2", "=", 
+    RowBox[{"DegreeElevaion", "[", "cc1", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"gcc", "=", 
+   RowBox[{"Graphics3D", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"Thick", ",", "Red", ",", 
+       RowBox[{"BezierCurve", "[", 
+        RowBox[{"cc", ",", 
+         RowBox[{"SplineDegree", "\[Rule]", "3"}]}], "]"}], ",", "Black", ",",
+        "Thick", ",", 
+       RowBox[{"Line", "[", "cc", "]"}], ",", "Black", ",", 
+       RowBox[{"PointSize", "[", "Large", "]"}], ",", 
+       RowBox[{"Point", "[", "cc", "]"}]}], "}"}], ",", 
+     RowBox[{"Axes", "\[Rule]", "True"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"gcc1", "=", 
+   RowBox[{"Graphics3D", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"Thick", ",", "Red", ",", 
+       RowBox[{"BezierCurve", "[", 
+        RowBox[{"cc1", ",", 
+         RowBox[{"SplineDegree", "\[Rule]", "4"}]}], "]"}], ",", "Green", ",",
+        "Thick", ",", 
+       RowBox[{"Line", "[", "cc1", "]"}], ",", "Blue", ",", 
+       RowBox[{"PointSize", "[", "Large", "]"}], ",", 
+       RowBox[{"Point", "[", "cc1", "]"}]}], "}"}], ",", 
+     RowBox[{"Axes", "\[Rule]", "True"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"gcc2", "=", 
+   RowBox[{"Graphics3D", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"Thick", ",", "Green", ",", 
+       RowBox[{"BezierCurve", "[", 
+        RowBox[{"cc2", ",", 
+         RowBox[{"SplineDegree", "\[Rule]", "5"}]}], "]"}], ",", "Blue", ",", 
+       "Thick", ",", 
+       RowBox[{"Line", "[", "cc2", "]"}], ",", "Red", ",", 
+       RowBox[{"PointSize", "[", "Large", "]"}], ",", 
+       RowBox[{"Point", "[", "cc2", "]"}]}], "}"}], ",", 
+     RowBox[{"Axes", "\[Rule]", "True"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Show", "[", 
+  RowBox[{"{", 
+   RowBox[{"gcc", ",", "gcc1", ",", "gcc2"}], "}"}], "]"}]}], "Input",
+ CellChangeTimes->{
+  3.601869208872724*^9, {3.601869427999028*^9, 3.6018696333349752`*^9}, {
+   3.601869685143784*^9, 3.601869759222829*^9}, {3.601870532440373*^9, 
+   3.601870542107724*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Original control points are: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", "3", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "0", ",", "3"}], "}"}]}], "}"}]}],
+  SequenceForm[
+  "Original control points are: ", {{0, 0, 0}, {1, 3, 0}, {3, 3, 0}, {4, 0, 
+   3}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6018694501077957`*^9, 3.60186947098379*^9}, {
+   3.601869616136546*^9, 3.601869638441028*^9}, 3.601869766552145*^9, 
+   3.601869980266083*^9, {3.601870017368775*^9, 3.601870034744128*^9}, 
+   3.601870104398287*^9, {3.601870139065597*^9, 3.601870181237232*^9}, 
+   3.601870252001967*^9, 3.601870308031642*^9, 3.601870545147019*^9, 
+   3.6019442907921295`*^9, 3.6055732507190714`*^9, 3.6056302886493006`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New control points are: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       FractionBox["3", "4"], ",", 
+       FractionBox["9", "4"], ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       FractionBox["13", "4"], ",", 
+       FractionBox["9", "4"], ",", 
+       FractionBox["3", "4"]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "0", ",", "3"}], "}"}]}], "}"}]}],
+  SequenceForm["New control points are: ", {{0, 0, 0}, {
+     Rational[3, 4], 
+     Rational[9, 4], 0}, {2, 3, 0}, {
+     Rational[13, 4], 
+     Rational[9, 4], 
+     Rational[3, 4]}, {4, 0, 3}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6018694501077957`*^9, 3.60186947098379*^9}, {
+   3.601869616136546*^9, 3.601869638441028*^9}, 3.601869766552145*^9, 
+   3.601869980266083*^9, {3.601870017368775*^9, 3.601870034744128*^9}, 
+   3.601870104398287*^9, {3.601870139065597*^9, 3.601870181237232*^9}, 
+   3.601870252001967*^9, 3.601870308031642*^9, 3.601870545147019*^9, 
+   3.6019442907921295`*^9, 3.6055732507190714`*^9, 3.6056302886493006`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"New control points are: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       FractionBox["3", "5"], ",", 
+       FractionBox["9", "5"], ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       FractionBox["3", "2"], ",", 
+       FractionBox["27", "10"], ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       FractionBox["5", "2"], ",", 
+       FractionBox["27", "10"], ",", 
+       FractionBox["3", "10"]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       FractionBox["17", "5"], ",", 
+       FractionBox["9", "5"], ",", 
+       FractionBox["6", "5"]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "0", ",", "3"}], "}"}]}], "}"}]}],
+  SequenceForm["New control points are: ", {{0, 0, 0}, {
+     Rational[3, 5], 
+     Rational[9, 5], 0}, {
+     Rational[3, 2], 
+     Rational[27, 10], 0}, {
+     Rational[5, 2], 
+     Rational[27, 10], 
+     Rational[3, 10]}, {
+     Rational[17, 5], 
+     Rational[9, 5], 
+     Rational[6, 5]}, {4, 0, 3}}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.6018694501077957`*^9, 3.60186947098379*^9}, {
+   3.601869616136546*^9, 3.601869638441028*^9}, 3.601869766552145*^9, 
+   3.601869980266083*^9, {3.601870017368775*^9, 3.601870034744128*^9}, 
+   3.601870104398287*^9, {3.601870139065597*^9, 3.601870181237232*^9}, 
+   3.601870252001967*^9, 3.601870308031642*^9, 3.601870545147019*^9, 
+   3.6019442907921295`*^9, 3.6055732507190714`*^9, 3.6056302886493006`*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ Graphics3DBox[{{
+    {RGBColor[1, 0, 0], Thickness[Large], 
+     BezierCurve3DBox[{{0, 0, 0}, {1, 3, 0}, {3, 3, 0}, {4, 0, 3}},
+      SplineDegree->3]}, 
+    {GrayLevel[0], Thickness[Large], 
+     Line3DBox[{{0, 0, 0}, {1, 3, 0}, {3, 3, 0}, {4, 0, 3}}], 
+     {GrayLevel[0], PointSize[Large], 
+      Point3DBox[{{0, 0, 0}, {1, 3, 0}, {3, 3, 0}, {4, 0, 3}}]}}}, {
+    {RGBColor[1, 0, 0], Thickness[Large], 
+     BezierCurve3DBox[
+      NCache[{{0, 0, 0}, {Rational[3, 4], Rational[9, 4], 0}, {2, 3, 0}, {
+        Rational[13, 4], Rational[9, 4], Rational[3, 4]}, {4, 0, 3}}, {{0, 0, 
+        0}, {0.75, 2.25, 0}, {2, 3, 0}, {3.25, 2.25, 0.75}, {4, 0, 3}}],
+      SplineDegree->4]}, 
+    {RGBColor[0, 1, 0], Thickness[Large], 
+     Line3DBox[
+      NCache[{{0, 0, 0}, {Rational[3, 4], Rational[9, 4], 0}, {2, 3, 0}, {
+        Rational[13, 4], Rational[9, 4], Rational[3, 4]}, {4, 0, 3}}, {{0, 0, 
+        0}, {0.75, 2.25, 0}, {2, 3, 0}, {3.25, 2.25, 0.75}, {4, 0, 3}}]], 
+     {RGBColor[0, 0, 1], PointSize[Large], 
+      Point3DBox[
+       NCache[{{0, 0, 0}, {Rational[3, 4], Rational[9, 4], 0}, {2, 3, 0}, {
+         Rational[13, 4], Rational[9, 4], Rational[3, 4]}, {4, 0, 3}}, {{0, 0,
+          0}, {0.75, 2.25, 0}, {2, 3, 0}, {3.25, 2.25, 0.75}, {4, 0, 
+         3}}]]}}}, {
+    {RGBColor[0, 1, 0], Thickness[Large], 
+     BezierCurve3DBox[
+      NCache[{{0, 0, 0}, {Rational[3, 5], Rational[9, 5], 0}, {
+        Rational[3, 2], Rational[27, 10], 0}, {
+        Rational[5, 2], Rational[27, 10], Rational[3, 10]}, {
+        Rational[17, 5], Rational[9, 5], Rational[6, 5]}, {4, 0, 3}}, {{0, 0, 
+        0}, {0.6, 1.8, 0}, {1.5, 2.7, 0}, {2.5, 2.7, 0.3}, {3.4, 1.8, 1.2}, {
+        4, 0, 3}}],
+      SplineDegree->5]}, 
+    {RGBColor[0, 0, 1], Thickness[Large], 
+     Line3DBox[
+      NCache[{{0, 0, 0}, {Rational[3, 5], Rational[9, 5], 0}, {
+        Rational[3, 2], Rational[27, 10], 0}, {
+        Rational[5, 2], Rational[27, 10], Rational[3, 10]}, {
+        Rational[17, 5], Rational[9, 5], Rational[6, 5]}, {4, 0, 3}}, {{0, 0, 
+        0}, {0.6, 1.8, 0}, {1.5, 2.7, 0}, {2.5, 2.7, 0.3}, {3.4, 1.8, 1.2}, {
+        4, 0, 3}}]], 
+     {RGBColor[1, 0, 0], PointSize[Large], 
+      Point3DBox[
+       NCache[{{0, 0, 0}, {Rational[3, 5], Rational[9, 5], 0}, {
+         Rational[3, 2], Rational[27, 10], 0}, {
+         Rational[5, 2], Rational[27, 10], Rational[3, 10]}, {
+         Rational[17, 5], Rational[9, 5], Rational[6, 5]}, {4, 0, 3}}, {{0, 0,
+          0}, {0.6, 1.8, 0}, {1.5, 2.7, 0}, {2.5, 2.7, 0.3}, {3.4, 1.8, 
+         1.2}, {4, 0, 3}}]]}}}},
+  AutomaticImageSize->True,
+  Axes->True,
+  ImageSize->{361.00370869916264`, 362.2285275462408},
+  ViewPoint->{1.7198465375112244`, 1.8209526749026386`, 2.2751393898342984`},
+  ViewVertical->{0.012517993843578712`, 1.3298316670930528`, 
+   0.09511538726475269}]], "Output",
+ CellChangeTimes->{{3.601869616141038*^9, 3.601869638473475*^9}, 
+   3.6018697665858183`*^9, 3.601869980299032*^9, {3.6018700174055862`*^9, 
+   3.601870034800446*^9}, 3.60187010443579*^9, {3.6018701390999107`*^9, 
+   3.6018701812924223`*^9}, 3.601870252038994*^9, 3.6018703080718737`*^9, 
+   3.601870545178598*^9, 3.6019442908221297`*^9, 3.605573250739072*^9, 
+   3.6056302886593003`*^9}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{764, 945},
+WindowMargins->{{Automatic, 502}, {Automatic, 6}},
+FrontEndVersion->"9.0 for Microsoft Windows (64-bit) (January 25, 2013)",
+StyleDefinitions->FrontEnd`FileName[{"Report"}, "StandardReport.nb", 
+  CharacterEncoding -> "WindowsANSI"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 731, 16, 134, "Title"],
+Cell[1313, 40, 1433, 23, 491, "Subtitle"],
+Cell[2749, 65, 725, 12, 201, "Subsubtitle"],
+Cell[3477, 79, 445, 7, 35, "Text"],
+Cell[3925, 88, 1937, 42, 73, "Input"],
+Cell[CellGroupData[{
+Cell[5887, 134, 196, 5, 71, "Subtitle"],
+Cell[CellGroupData[{
+Cell[6108, 143, 198, 3, 88, "Section"],
+Cell[CellGroupData[{
+Cell[6331, 150, 1884, 51, 141, "Input"],
+Cell[8218, 203, 3569, 61, 384, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11836, 270, 98, 1, 88, "Section"],
+Cell[CellGroupData[{
+Cell[11959, 275, 2568, 68, 201, "Input"],
+Cell[14530, 345, 2422, 45, 479, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17001, 396, 95, 1, 88, "Section"],
+Cell[CellGroupData[{
+Cell[17121, 401, 4122, 110, 441, "Input"],
+Cell[CellGroupData[{
+Cell[21268, 515, 994, 22, 23, "Print"],
+Cell[22265, 539, 1288, 32, 40, "Print"],
+Cell[23556, 573, 1607, 44, 59, "Print"]
+}, Open  ]],
+Cell[25178, 620, 3234, 62, 386, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
